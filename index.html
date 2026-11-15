@@ -1,0 +1,1407 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#f2f8f0">
+<title>Chatify — Everything connects.</title>
+
+<style>
+:root {
+  --green:#4caf50;
+  --dark-green:#2e7d32;
+  --light-green:#e8f5e9;
+  --pale:#fafafa;
+  --ink:#333333;
+  --muted:#6b736b;
+  --white:#fff;
+  --public-green:#4caf50;
+  --public-green-dark:#45a049;
+  --public-green-deep:#2e7d32;
+  --public-border:#ccc;
+  --public-secondary:#fafafa;
+  --public-text:#333333;
+}
+
+* { box-sizing:border-box; margin:0; padding:0; }
+
+html { scroll-behavior:smooth; }
+
+body {
+  font-family:Roboto,system-ui,-apple-system,"Segoe UI",Arial,sans-serif;
+  color:var(--ink);
+  background:white;
+}
+
+a { color:inherit; text-decoration:none; }
+
+button { font:inherit; cursor:pointer; }
+
+.nav {
+  height:58px;
+  position:sticky;
+  top:0;
+  z-index:100;
+  background:rgba(250,250,250,.9);
+  backdrop-filter:blur(20px);
+  border-bottom:1px solid #e5e5e5;
+}
+
+.nav-inner {
+  max-width:1100px;
+  height:100%;
+  margin:auto;
+  padding:0 22px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+}
+
+.brand {
+  display:flex;
+  align-items:center;
+  gap:9px;
+  font-size:23px;
+  font-weight:750;
+  letter-spacing:-1.4px;
+  cursor:pointer;
+}
+
+.brand img {
+  width:30px;
+  height:30px;
+  object-fit:contain;
+}
+
+.brand span { color:var(--green); }
+
+.nav-links {
+  display:flex;
+  align-items:center;
+  gap:25px;
+  font-size:13px;
+  color:#4a4a4a;
+}
+
+.nav-links a:hover { color:var(--green); }
+
+.nav-links .nav-cta {
+  background:var(--public-green);
+  color:white;
+  padding:9px 16px;
+  border-radius:30px;
+  transition:background .2s, transform .2s;
+}
+
+.nav-links .nav-cta:hover {
+  background:var(--public-green-dark);
+  transform:translateY(-1px);
+}
+
+.page {
+  display:none;
+  animation:appear .35s ease;
+}
+
+.page.active { display:block; }
+
+@keyframes appear {
+  from { opacity:0; transform:translateY(8px); }
+  to { opacity:1; transform:translateY(0); }
+}
+
+.hero {
+  min-height:700px;
+  padding:110px 24px 120px;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  text-align:center;
+  background:linear-gradient(135deg,#f5f5f5 0%,#fafafa 100%);
+}
+.eyebrow {
+  font-size:12px;
+  letter-spacing:2px;
+  text-transform:uppercase;
+  color:var(--public-green);
+  font-weight:750;
+  margin-bottom:20px;
+}
+
+.hero h1 {
+  font-size:clamp(72px,11vw,124px);
+  letter-spacing:-8px;
+  line-height:.96;
+  margin-bottom:28px;
+  font-weight:800;
+  text-align:center;
+}
+
+.hero p {
+  max-width:620px;
+  font-size:21px;
+  line-height:1.55;
+  color:var(--muted);
+}
+
+.actions {
+  display:flex;
+  gap:13px;
+  flex-wrap:wrap;
+  justify-content:center;
+  margin-top:30px;
+}
+
+.btn {
+  display:inline-flex;
+  justify-content:center;
+  align-items:center;
+  padding:13px 21px;
+  border-radius:40px;
+  font-size:14px;
+  font-weight:650;
+  border:1px solid transparent;
+  transition:.2s;
+}
+
+.btn:hover { transform:translateY(-3px); }
+
+.primary {
+  color:white;
+  background:var(--public-green);
+}
+
+.primary:hover { background:var(--public-green-dark); }
+
+.secondary {
+  color:var(--public-green-deep);
+  border-color:#a5d6a7;
+  background:rgba(255,255,255,.75);
+}
+
+.secondary:hover {
+  border-color:var(--public-green);
+  color:var(--public-green);
+}
+.section {
+  padding:85px 24px;
+}
+
+.soft { background:var(--pale); }
+
+.heading {
+  max-width:720px;
+  text-align:center;
+  margin:0 auto 45px;
+}
+
+.heading h2 {
+  font-size:clamp(37px,6vw,58px);
+  letter-spacing:-3px;
+  margin-bottom:13px;
+}
+
+.heading p {
+  font-size:17px;
+  line-height:1.6;
+  color:var(--muted);
+}
+
+.grid {
+  max-width:1050px;
+  margin:auto;
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:20px;
+}
+
+.product-card {
+  min-height:330px;
+  background:white;
+  border:1px solid #e5e5e5;
+  border-radius:25px;
+  padding:35px 25px;
+  text-align:center;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  transition:.25s;
+  cursor:pointer;
+}
+
+.product-card:hover {
+  transform:translateY(-5px);
+  box-shadow:0 15px 40px rgba(76,175,80,.10);
+  border-color:#c8e6c9;
+}
+
+.product-card img {
+  width:85px;
+  height:85px;
+  object-fit:contain;
+  margin-bottom:22px;
+}
+
+.product-card h3 {
+  font-size:31px;
+  letter-spacing:-1.3px;
+  margin-bottom:10px;
+}
+
+.product-card p {
+  max-width:360px;
+  color:var(--muted);
+  line-height:1.55;
+  font-size:15px;
+}
+
+.product-card .link {
+  margin-top:20px;
+  color:var(--public-green);
+  font-size:14px;
+  font-weight:700;
+}
+
+/* PRODUCT PAGE */
+
+.product-hero {
+  min-height:590px;
+  padding:85px 24px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  background:linear-gradient(135deg,#f5f5f5 0%,#fafafa 100%);
+}
+
+.product-hero-inner {
+  max-width:800px;
+  margin:auto;
+}
+
+.product-logo {
+  width:110px;
+  height:110px;
+  object-fit:contain;
+  margin-bottom:25px;
+}
+
+.product-hero h1 {
+  font-size:clamp(55px,9vw,95px);
+  letter-spacing:-6px;
+  line-height:1;
+  margin-bottom:23px;
+}
+
+.product-hero p {
+  max-width:650px;
+  margin:auto;
+  font-size:20px;
+  line-height:1.65;
+  color:#667166;
+}
+
+.product-content {
+  max-width:1050px;
+  margin:auto;
+  padding:85px 24px;
+}
+
+.product-content h2 {
+  font-size:clamp(32px,5vw,49px);
+  letter-spacing:-2px;
+  margin-bottom:17px;
+}
+
+.product-content > p {
+  max-width:750px;
+  font-size:17px;
+  line-height:1.8;
+  color:var(--muted);
+}
+
+.feature-grid {
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:17px;
+  margin-top:35px;
+}
+
+.feature {
+  padding:27px;
+  background:#fafafa;
+  border:1px solid #eeeeee;
+  border-radius:20px;
+  min-height:160px;
+}
+
+.feature .symbol {
+  font-size:27px;
+  color:var(--public-green);
+  margin-bottom:15px;
+}
+
+.feature h3 {
+  font-size:18px;
+  margin-bottom:9px;
+}
+
+.feature p {
+  color:var(--muted);
+  line-height:1.6;
+  font-size:14px;
+}
+
+.product-banner {
+  background:#e8f5e9;
+  padding:65px 25px;
+  text-align:center;
+  border-radius:25px;
+  margin-top:65px;
+  border:1px solid #c8e6c9;
+}
+.product-banner h2 {
+  font-size:clamp(30px,5vw,48px);
+}
+
+.product-banner p {
+  color:var(--muted);
+  margin-top:12px;
+  line-height:1.6;
+}
+
+/* FOOTER */
+
+footer {
+  padding:30px 22px;
+  background:#fafafa;
+  color:#666666;
+  font-size:12px;
+  border-top:1px solid #eeeeee;
+}
+
+.footer-inner {
+  max-width:1050px;
+  margin:auto;
+  display:flex;
+  justify-content:space-between;
+  flex-wrap:wrap;
+  gap:15px;
+}
+
+.footer-links {
+  display:flex;
+  gap:20px;
+}
+
+.back {
+  border:0;
+  background:none;
+  color:var(--public-green);
+  font-weight:650;
+  font-size:14px;
+  margin-bottom:30px;
+}
+
+.back:hover { text-decoration:underline; }
+
+@media(max-width:700px) {
+  .nav-links { gap:12px; font-size:11px; }
+  .nav-links .optional { display:none; }
+  .hero h1,.product-hero h1 { letter-spacing:-4px; }
+  .grid { grid-template-columns:1fr; }
+  .feature-grid { grid-template-columns:1fr; }
+  .section { padding:65px 17px; }
+  .product-content { padding:60px 20px; }
+  .product-hero { min-height:520px; }
+}
+
+/* LOGO SHOWCASE */
+
+.logo-showcase {
+  position:relative;
+  width:100%;
+  max-width:320px;
+  height:175px;
+  margin:0 auto 35px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
+.logo-showcase img {
+  position:absolute;
+  width:150px;
+  height:150px;
+  object-fit:contain;
+  opacity:0;
+  transform:scale(.85) rotate(-6deg);
+  animation:logoCycle 16s infinite;
+  filter:drop-shadow(0 14px 28px rgba(76,175,80,.12));
+}
+
+/* Synchronize the rotation so the first logo is visible
+   exactly when the merged logo arrives. */
+.logo-showcase img:nth-child(1) { animation-delay:4.36s; }
+.logo-showcase img:nth-child(2) { animation-delay:6.96s; }
+.logo-showcase img:nth-child(3) { animation-delay:9.56s; }
+.logo-showcase img:nth-child(4) { animation-delay:12.16s; }
+.logo-showcase img:nth-child(5) { animation-delay:14.76s; }
+.logo-showcase img:nth-child(6) { animation-delay:17.36s; }
+
+@keyframes logoCycle {
+  0%   { opacity:0; transform:scale(.85) rotate(-6deg); }
+  4%   { opacity:1; transform:scale(1) rotate(0deg); }
+  14%  { opacity:1; transform:scale(1) rotate(0deg); }
+  18%  { opacity:0; transform:scale(.85) rotate(6deg); }
+  100% { opacity:0; transform:scale(.85) rotate(6deg); }
+}
+
+/* ============================================================
+   INTRO MERGE ANIMATION — plays once on load
+   ============================================================ */
+
+#mergeIntro {
+  position:fixed;
+  inset:0;
+  z-index:9999;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:linear-gradient(135deg,#f5f5f5 0%,#fafafa 100%);
+  overflow:hidden;
+  pointer-events:none;
+}
+
+#mergeIntro.done {
+  animation:introFadeOut 1s ease forwards;
+}
+
+@keyframes introFadeOut {
+  to { opacity:0; visibility:hidden; }
+}
+
+.merge-stage {
+  position:relative;
+  width:320px;
+  height:320px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
+/* Each drifting logo */
+.merge-logo {
+  position:absolute;
+  width:100px;
+  height:100px;
+  object-fit:contain;
+  opacity:0;
+  filter:drop-shadow(0 10px 24px rgba(76,175,80,.18));
+  animation:mergeDrift 2.2s cubic-bezier(.55,.05,.3,1) forwards;
+  will-change:transform,opacity;
+}
+
+/* Each logo starts off-center and sweeps into the middle */
+.merge-logo:nth-child(1) { /* Air — top left */
+  --sx:-260px; --sy:-200px; --sr:-40deg;
+  animation-delay:.15s;
+}
+.merge-logo:nth-child(2) { /* Drop — top right */
+  --sx: 260px; --sy:-200px; --sr: 40deg;
+  animation-delay:.3s;
+}
+.merge-logo:nth-child(3) { /* AI — bottom left */
+  --sx:-260px; --sy: 200px; --sr: 25deg;
+  animation-delay:.45s;
+}
+.merge-logo:nth-child(4) { /* Craft — bottom right */
+  --sx: 260px; --sy: 200px; --sr:-25deg;
+  animation-delay:.6s;
+}
+.merge-logo:nth-child(5) { /* HTML — bottom middle */
+  --sx:   0px; --sy: 260px; --sr: 10deg;
+  animation-delay:.75s;
+}
+
+@keyframes mergeDrift {
+  0% {
+    opacity:0;
+    transform:translate(var(--sx), var(--sy)) scale(.55) rotate(var(--sr));
+  }
+  18% {
+    opacity:1;
+  }
+  62% {
+    opacity:1;
+    transform:translate(0, 0) scale(.95) rotate(0deg);
+  }
+  74% {
+    opacity:.6;
+    transform:translate(0, 0) scale(.7) rotate(0deg);
+  }
+  100% {
+    opacity:0;
+    transform:translate(0, 0) scale(.3) rotate(0deg);
+  }
+}
+
+/* Final hero logo — revealed as the drifting ones merge in */
+.merge-final {
+  position:absolute;
+  width:180px;
+  height:180px;
+  object-fit:contain;
+  opacity:0;
+  transform:scale(.4);
+  filter:drop-shadow(0 20px 44px rgba(76,175,80,.22));
+  animation:mergeReveal 2.2s cubic-bezier(.55,.05,.3,1) forwards;
+  animation-delay:1.05s;
+}
+
+@keyframes mergeReveal {
+  0%   { opacity:0; transform:scale(.4); }
+  40%  { opacity:0; transform:scale(.4); }
+  55%  { opacity:1; transform:scale(1); }
+  68%  { opacity:1; transform:scale(1); }
+  100% { opacity:1; transform:scale(1); }
+}
+
+/* Soft pulse ring that appears as the merge completes */
+.merge-ring {
+  position:absolute;
+  width:220px;
+  height:220px;
+  border-radius:50%;
+  border:2px solid rgba(76,175,80,.28);
+  opacity:0;
+  animation:mergeRing 1.0s ease-out forwards;
+  animation-delay:1.35s;
+}
+
+@keyframes mergeRing {
+  0%   { opacity:0; transform:scale(.6); }
+  40%  { opacity:.9; }
+  100% { opacity:0; transform:scale(1.8); }
+}
+
+@media(prefers-reduced-motion:reduce) {
+  *,*::before,*::after {
+    animation:none !important;
+    transition:none !important;
+    scroll-behavior:auto !important;
+  }
+  .logo-showcase img:first-child {
+    opacity:1;
+    transform:none;
+  }
+  #mergeIntro { display:none !important; }
+}
+
+@media(max-width:700px) {
+  .merge-stage { width:240px; height:240px; }
+  .merge-logo  { width:72px;  height:72px; }
+  .merge-final { width:140px; height:140px; }
+  .merge-ring  { width:170px; height:170px; }
+  .merge-logo:nth-child(1) { --sx:-190px; --sy:-150px; }
+  .merge-logo:nth-child(2) { --sx: 190px; --sy:-150px; }
+  .merge-logo:nth-child(3) { --sx:-190px; --sy: 150px; }
+  .merge-logo:nth-child(4) { --sx: 190px; --sy: 150px; }
+  .merge-logo:nth-child(5) { --sx:   0px; --sy: 200px; }
+}
+</style>
+</head>
+
+<body>
+
+<!-- INTRO MERGE OVERLAY (plays once) -->
+<div id="mergeIntro" aria-hidden="true">
+  <div class="merge-stage">
+    <img class="merge-logo" src="https://res.cloudinary.com/dceqg5cky/image/upload/v1792132171/chatify_logo_light_jinudp.png" alt="">
+    <img class="merge-logo" src="https://res.cloudinary.com/dceqg5cky/image/upload/SDG_log-removebg-preview_bslq5d.png" alt="">
+    <img class="merge-logo" src="https://res.cloudinary.com/dceqg5cky/image/upload/SDG_log-removebg-preview_bslq5d.png" alt="">
+    <img class="merge-logo" src="https://res.cloudinary.com/dceqg5cky/image/upload/v1791265093/chatify_craft_logo_izhqjf.png" alt="">
+    <img class="merge-logo" src="https://res.cloudinary.com/dceqg5cky/image/upload/v1792132171/chatify_logo_light_jinudp.png" alt="">
+    <div class="merge-ring"></div>
+    <img class="merge-final" src="https://res.cloudinary.com/dceqg5cky/image/upload/SDG_log-removebg-preview_bslq5d.png" alt="Chatify">
+  </div>
+</div>
+
+<header class="nav">
+  <nav class="nav-inner">
+    <a class="brand" onclick="go('home')">
+  <img src="https://res.cloudinary.com/dceqg5cky/image/upload/SDG_log-removebg-preview_bslq5d.png" alt="Chatify logo">
+  Chatify
+</a>
+
+    <div class="nav-links">
+      <a onclick="go('home')">Home</a>
+      <a class="optional" onclick="go('public')">Public</a>
+      <a class="optional" onclick="go('google')">Google</a>
+      <a onclick="go('services')">Services</a>
+      <a class="nav-cta" href="https://chatify-public.pages.dev/"
+         target="_blank" rel="noopener noreferrer">Get started</a>
+    </div>
+  </nav>
+</header>
+
+<main>
+
+<!-- HOMEPAGE -->
+
+<div class="page active" id="home">
+
+    <section class="hero">
+    <div class="eyebrow">Welcome to Chatify</div>
+
+    <div class="logo-showcase" aria-hidden="true">
+      <img src="https://res.cloudinary.com/dceqg5cky/image/upload/SDG_log-removebg-preview_bslq5d.png" alt="">
+      <img src="https://res.cloudinary.com/dceqg5cky/image/upload/v1792132171/chatify_logo_light_jinudp.png" alt="">
+      <img src="https://res.cloudinary.com/dceqg5cky/image/upload/v1791265093/chatify_craft_logo_izhqjf.png" alt="">
+      <img src="https://res.cloudinary.com/dceqg5cky/image/upload/SDG_log-removebg-preview_bslq5d.png" alt="">
+      <img src="https://res.cloudinary.com/dceqg5cky/image/upload/v1792132171/chatify_logo_light_jinudp.png" alt="">
+      <img src="https://res.cloudinary.com/dceqg5cky/image/upload/v1791265093/chatify_craft_logo_izhqjf.png" alt="">
+    </div>
+
+    <h1>Everything<br>connects.</h1>
+
+    <p>
+      Discover a collection of messaging experiences,
+      innovative services, and creative projects.
+      All brought together by Chatify.
+    </p>
+
+    <div class="actions">
+      <a href="#products" class="btn primary"
+         onclick="document.getElementById('products').scrollIntoView()">
+         Explore products
+      </a>
+      <a href="#services" class="btn secondary"
+         onclick="go('services')">
+         Discover services
+      </a>
+    </div>
+  </section>
+
+  <section class="section soft" id="products">
+    <div class="heading">
+      <div class="eyebrow">The main experiences</div>
+      <h2>Meet Chatify.</h2>
+      <p>
+        Two core messaging experiences.
+        Discover the platform that works for you.
+      </p>
+    </div>
+
+    <div class="grid">
+
+      <div class="product-card" onclick="go('public')">
+        <img src="https://res.cloudinary.com/dceqg5cky/image/upload/SDG_log-removebg-preview_bslq5d.png" alt="Chatify logo">
+        <h3>Chatify Public</h3>
+        <p>The main public Chatify experience.</p>
+        <span class="link">Explore Public →</span>
+      </div>
+
+      <div class="product-card" onclick="go('google')">
+        <img src="https://res.cloudinary.com/dceqg5cky/image/upload/SDG_log-removebg-preview_bslq5d.png" alt="Chatify logo">
+        <h3>Chatify Google</h3>
+        <p>The Google-focused Chatify experience.</p>
+        <span class="link">Explore Google →</span>
+      </div>
+
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="heading">
+      <div class="eyebrow">The ecosystem</div>
+      <h2>There's more to explore.</h2>
+      <p>Discover the other services and projects within Chatify.</p>
+    </div>
+
+    <div class="grid">
+
+      <div class="product-card" onclick="go('air')">
+        <img src="https://res.cloudinary.com/dceqg5cky/image/upload/v1792132171/chatify_logo_light_jinudp.png" alt="Chatify Air">
+        <h3>Chatify Air</h3>
+        <p>A secondary iMessage client.</p>
+        <span class="link">Explore Air →</span>
+      </div>
+
+      <div class="product-card" onclick="go('drop')">
+        <img src="https://res.cloudinary.com/dceqg5cky/image/upload/SDG_log-removebg-preview_bslq5d.png" alt="Chatify Drop">
+        <h3>Chatify Drop</h3>
+        <p>A dedicated Chatify service.</p>
+        <span class="link">Explore Drop →</span>
+      </div>
+
+      <div class="product-card" onclick="go('ai')">
+        <img src="https://res.cloudinary.com/dceqg5cky/image/upload/SDG_log-removebg-preview_bslq5d.png" alt="Chatify AI">
+        <h3>Chatify AI</h3>
+        <p>An AI-focused Chatify service.</p>
+        <span class="link">Explore AI →</span>
+      </div>
+
+      <div class="product-card" onclick="go('craft')">
+        <img src="https://res.cloudinary.com/dceqg5cky/image/upload/v1791265093/chatify_craft_logo_izhqjf.png" alt="Chatify Craft">
+        <h3>Chatify Craft</h3>
+        <p>A game project from Chatify.</p>
+        <span class="link">Explore Craft →</span>
+      </div>
+
+      <div class="product-card" onclick="go('html')">
+        <div style="font-size:60px;color:#548b60;margin-bottom:20px">&lt;/&gt;</div>
+        <h3>Chatify HTML</h3>
+        <p>A custom HTML runner.</p>
+        <span class="link">Explore HTML →</span>
+      </div>
+
+    </div>
+  </section>
+
+</div>
+
+<!-- PUBLIC PAGE -->
+
+<div class="page" id="public">
+
+  <section class="product-hero">
+    <div class="product-hero-inner">
+      <div class="eyebrow">The main Chatify experience</div>
+
+      <img class="product-logo"
+       src="https://res.cloudinary.com/dceqg5cky/image/upload/SDG_log-removebg-preview_bslq5d.png"
+       alt="Chatify Public">
+
+      <h1>Chatify Public.</h1>
+
+      <p>
+        Welcome to the public Chatify experience.
+        Discover the main platform and explore
+        what Chatify has to offer.
+      </p>
+
+      <div class="actions">
+        <a class="btn primary" href="https://chatify-public.pages.dev/"
+           target="_blank" rel="noopener noreferrer">Launch Chatify Public ↗</a>
+        <button class="btn secondary" onclick="go('google')">Explore Chatify Google</button>
+      </div>
+    </div>
+  </section>
+
+  <section class="product-content">
+    <button class="back" onclick="go('home')">← All products</button>
+
+    <div class="eyebrow">About the platform</div>
+    <h2>Meet Chatify Public.</h2>
+
+    <p>
+      Chatify Public is one of the two primary Chatify
+      experiences. It serves as the public-facing
+      destination in the Chatify ecosystem.
+      Visit the platform to experience its actual
+      messaging features and interface.
+    </p>
+
+    <div class="feature-grid">
+      <div class="feature">
+        <div class="symbol">◉</div>
+        <h3>Public experience</h3>
+        <p>A dedicated public-facing Chatify platform.</p>
+      </div>
+
+      <div class="feature">
+        <div class="symbol">✦</div>
+        <h3>Part of Chatify</h3>
+        <p>One of the ecosystem's two primary experiences.</p>
+      </div>
+
+      <div class="feature">
+        <div class="symbol">↗</div>
+        <h3>Ready to explore</h3>
+        <p>Visit the live platform to see it in action.</p>
+      </div>
+    </div>
+
+    <div class="product-banner">
+      <h2>Ready to connect?</h2>
+      <p>Explore Chatify Public directly.</p>
+      <div class="actions">
+        <a class="btn primary" href="https://chatify-public.pages.dev/"
+           target="_blank" rel="noopener noreferrer">Open Chatify Public ↗</a>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- GOOGLE PAGE -->
+
+<div class="page" id="google">
+
+  <section class="product-hero">
+    <div class="product-hero-inner">
+      <div class="eyebrow">The Google experience</div>
+
+      <img class="product-logo"
+       src="https://res.cloudinary.com/dceqg5cky/image/upload/SDG_log-removebg-preview_bslq5d.png"
+       alt="Chatify Google">
+
+      <h1>Chatify Google.</h1>
+
+      <p>
+        A Google-focused Chatify experience.
+        Discover another way to access the
+        growing Chatify ecosystem.
+      </p>
+
+      <div class="actions">
+        <a class="btn primary" href="https://chatify-google.pages.dev/"
+           target="_blank" rel="noopener noreferrer">Launch Chatify Google ↗</a>
+        <button class="btn secondary" onclick="go('public')">Explore Chatify Public</button>
+      </div>
+    </div>
+  </section>
+
+  <section class="product-content">
+    <button class="back" onclick="go('home')">← All products</button>
+
+    <div class="eyebrow">About the platform</div>
+    <h2>Meet Chatify Google.</h2>
+
+    <p>
+      Chatify Google is the second primary Chatify
+      experience. It provides a Google-focused
+      destination within the larger Chatify collection.
+      Visit the live service to explore its available
+      features and experience.
+    </p>
+
+    <div class="feature-grid">
+      <div class="feature">
+        <div class="symbol">G</div>
+        <h3>Google-focused</h3>
+        <p>A dedicated Google-oriented Chatify experience.</p>
+      </div>
+
+      <div class="feature">
+        <div class="symbol">✦</div>
+        <h3>Core platform</h3>
+        <p>One of the two main Chatify experiences.</p>
+      </div>
+
+      <div class="feature">
+        <div class="symbol">↗</div>
+        <h3>Explore online</h3>
+        <p>Visit the live website to discover its features.</p>
+      </div>
+    </div>
+
+    <div class="product-banner">
+      <h2>Experience Chatify Google.</h2>
+      <p>Visit the dedicated platform.</p>
+      <div class="actions">
+        <a class="btn primary" href="https://chatify-google.pages.dev/"
+           target="_blank" rel="noopener noreferrer">Open Chatify Google ↗</a>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- AIR PAGE -->
+
+<div class="page" id="air">
+
+  <section class="product-hero">
+    <div class="product-hero-inner">
+      <div class="eyebrow">Messaging, another way</div>
+
+      <img class="product-logo"
+       src="https://res.cloudinary.com/dceqg5cky/image/upload/v1792132171/chatify_logo_light_jinudp.png"
+       alt="Chatify Air">
+
+      <h1>Chatify Air.</h1>
+
+      <p>
+        A secondary iMessage client experience
+        within the Chatify ecosystem.
+      </p>
+
+      <div class="actions">
+        <a class="btn primary" href="https://chatify-air.pages.dev/"
+           target="_blank" rel="noopener noreferrer">Launch Chatify Air ↗</a>
+        <button class="btn secondary" onclick="go('home')">All products</button>
+      </div>
+    </div>
+  </section>
+
+  <section class="product-content">
+    <button class="back" onclick="go('home')">← All products</button>
+    <div class="eyebrow">About the client</div>
+    <h2>Meet Chatify Air.</h2>
+    <p>
+      Chatify Air is a secondary iMessage client
+      project. It expands the Chatify collection
+      with another dedicated messaging experience.
+      Visit the service to discover its interface
+      and available functionality.
+    </p>
+
+    <div class="feature-grid">
+      <div class="feature">
+        <div class="symbol">✉</div>
+        <h3>iMessage client</h3>
+        <p>A dedicated secondary messaging client.</p>
+      </div>
+      <div class="feature">
+        <div class="symbol">◉</div>
+        <h3>Standalone service</h3>
+        <p>Its own dedicated website and experience.</p>
+      </div>
+      <div class="feature">
+        <div class="symbol">↗</div>
+        <h3>Explore Air</h3>
+        <p>See the live experience directly.</p>
+      </div>
+    </div>
+
+    <div class="product-banner">
+      <h2>Take off with Air.</h2>
+      <div class="actions">
+        <a class="btn primary" href="https://chatify-air.pages.dev/"
+           target="_blank" rel="noopener noreferrer">Open Chatify Air ↗</a>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- DROP PAGE -->
+
+<div class="page" id="drop">
+
+  <section class="product-hero">
+    <div class="product-hero-inner">
+      <div class="eyebrow">A Chatify service</div>
+      <img class="product-logo"
+       src="https://res.cloudinary.com/dceqg5cky/image/upload/SDG_log-removebg-preview_bslq5d.png"
+       alt="Chatify Drop">
+      <h1>Chatify Drop.</h1>
+      <p>
+        Discover Chatify Drop, a dedicated
+        service in the Chatify ecosystem.
+      </p>
+      <div class="actions">
+        <a class="btn primary" href="https://chatify-drop.pages.dev/"
+           target="_blank" rel="noopener noreferrer">Launch Chatify Drop ↗</a>
+        <button class="btn secondary" onclick="go('home')">All products</button>
+      </div>
+    </div>
+  </section>
+
+  <section class="product-content">
+    <button class="back" onclick="go('home')">← All products</button>
+    <div class="eyebrow">About the service</div>
+    <h2>Meet Chatify Drop.</h2>
+    <p>
+      Chatify Drop is a standalone Chatify service.
+      It has its own dedicated destination within
+      the ecosystem. Visit the live platform to
+      explore its actual tools and capabilities.
+    </p>
+    <div class="feature-grid">
+      <div class="feature">
+        <div class="symbol">↓</div>
+        <h3>Dedicated service</h3>
+        <p>A separate destination in the Chatify collection.</p>
+      </div>
+      <div class="feature">
+        <div class="symbol">✦</div>
+        <h3>Part of the ecosystem</h3>
+        <p>Another experience under the Chatify name.</p>
+      </div>
+      <div class="feature">
+        <div class="symbol">↗</div>
+        <h3>Explore online</h3>
+        <p>Visit the live service for more information.</p>
+      </div>
+    </div>
+    <div class="product-banner">
+      <h2>Discover Drop.</h2>
+      <div class="actions">
+        <a class="btn primary" href="https://chatify-drop.pages.dev/"
+           target="_blank" rel="noopener noreferrer">Open Chatify Drop ↗</a>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- AI PAGE -->
+
+<div class="page" id="ai">
+
+  <section class="product-hero">
+    <div class="product-hero-inner">
+      <div class="eyebrow">Intelligence meets Chatify</div>
+      <img class="product-logo"
+       src="https://res.cloudinary.com/dceqg5cky/image/upload/SDG_log-removebg-preview_bslq5d.png"
+       alt="Chatify AI">
+      <h1>Chatify AI.</h1>
+      <p>
+        Explore the AI-focused addition
+        to the growing Chatify ecosystem.
+      </p>
+      <div class="actions">
+        <a class="btn primary" href="https://chatify-ai.pages.dev/"
+           target="_blank" rel="noopener noreferrer">Launch Chatify AI ↗</a>
+        <button class="btn secondary" onclick="go('home')">All products</button>
+      </div>
+    </div>
+  </section>
+
+  <section class="product-content">
+    <button class="back" onclick="go('home')">← All products</button>
+    <div class="eyebrow">About the service</div>
+    <h2>Meet Chatify AI.</h2>
+    <p>
+      Chatify AI is the AI-focused service in
+      the Chatify collection. It represents
+      another direction for the ecosystem,
+      bringing artificial intelligence into
+      its collection of digital experiences.
+    </p>
+    <div class="feature-grid">
+      <div class="feature">
+        <div class="symbol">✧</div>
+        <h3>AI-focused</h3>
+        <p>A dedicated artificial intelligence service.</p>
+      </div>
+      <div class="feature">
+        <div class="symbol">◉</div>
+        <h3>Standalone platform</h3>
+        <p>Its own dedicated online destination.</p>
+      </div>
+      <div class="feature">
+        <div class="symbol">↗</div>
+        <h3>Explore AI</h3>
+        <p>Discover the live service.</p>
+      </div>
+    </div>
+    <div class="product-banner">
+      <h2>Explore Chatify AI.</h2>
+      <div class="actions">
+        <a class="btn primary" href="https://chatify-ai.pages.dev/"
+           target="_blank" rel="noopener noreferrer">Open Chatify AI ↗</a>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- CRAFT PAGE -->
+
+<div class="page" id="craft">
+
+  <section class="product-hero">
+    <div class="product-hero-inner">
+      <div class="eyebrow">The creative side of Chatify</div>
+      <img class="product-logo"
+       src="https://res.cloudinary.com/dceqg5cky/image/upload/v1791265093/chatify_craft_logo_izhqjf.png"
+       alt="Chatify Craft">
+      <h1>Chatify Craft.</h1>
+      <p>
+        A game project in the Chatify universe.
+        Discover another side of the ecosystem.
+      </p>
+      <div class="actions">
+        <a class="btn primary" href="https://chatify-craft.pages.dev/"
+           target="_blank" rel="noopener noreferrer">Play Chatify Craft ↗</a>
+        <button class="btn secondary" onclick="go('home')">All products</button>
+      </div>
+    </div>
+  </section>
+
+  <section class="product-content">
+    <button class="back" onclick="go('home')">← All products</button>
+    <div class="eyebrow">About the project</div>
+    <h2>Enter Chatify Craft.</h2>
+    <p>
+      Chatify Craft is a game project developed
+      under the Chatify name. It brings a more
+      playful and creative experience to the
+      wider collection of projects.
+    </p>
+    <div class="feature-grid">
+      <div class="feature">
+        <div class="symbol">◇</div>
+        <h3>Gaming</h3>
+        <p>A dedicated game project.</p>
+      </div>
+      <div class="feature">
+        <div class="symbol">✦</div>
+        <h3>Creative</h3>
+        <p>A different kind of Chatify experience.</p>
+      </div>
+      <div class="feature">
+        <div class="symbol">↗</div>
+        <h3>Play online</h3>
+        <p>Visit the live game.</p>
+      </div>
+    </div>
+    <div class="product-banner">
+      <h2>Ready to play?</h2>
+      <div class="actions">
+        <a class="btn primary" href="https://chatify-craft.pages.dev/"
+           target="_blank" rel="noopener noreferrer">Play Chatify Craft ↗</a>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- HTML PAGE -->
+
+<div class="page" id="html">
+
+  <section class="product-hero">
+    <div class="product-hero-inner">
+      <div class="eyebrow">For developers and creators</div>
+      <div style="font-size:90px;color:#548b60;font-weight:750;margin-bottom:20px">
+        &lt;/&gt;
+      </div>
+      <h1>Chatify HTML.</h1>
+      <p>
+        A custom HTML runner for experimenting
+        with and running web code.
+      </p>
+      <div class="actions">
+        <a class="btn primary" href="https://chatify-html.pages.dev/"
+           target="_blank" rel="noopener noreferrer">Open HTML Runner ↗</a>
+        <button class="btn secondary" onclick="go('home')">All products</button>
+      </div>
+    </div>
+  </section>
+
+  <section class="product-content">
+    <button class="back" onclick="go('home')">← All products</button>
+    <div class="eyebrow">About the tool</div>
+    <h2>Build with Chatify HTML.</h2>
+    <p>
+      Chatify HTML is a custom HTML runner.
+      It provides a dedicated destination for
+      experimenting with web code and running
+      HTML projects.
+    </p>
+    <div class="feature-grid">
+      <div class="feature">
+        <div class="symbol">&lt;/&gt;</div>
+        <h3>HTML</h3>
+        <p>A tool centered around HTML code.</p>
+      </div>
+      <div class="feature">
+        <div class="symbol">✦</div>
+        <h3>Experiment</h3>
+        <p>A space for trying out web projects.</p>
+      </div>
+      <div class="feature">
+        <div class="symbol">↗</div>
+        <h3>Run online</h3>
+        <p>Access the custom runner directly.</p>
+      </div>
+    </div>
+    <div class="product-banner">
+      <h2>Bring your code to life.</h2>
+      <div class="actions">
+        <a class="btn primary" href="https://chatify-html.pages.dev/"
+           target="_blank" rel="noopener noreferrer">Open HTML Runner ↗</a>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- SERVICES OVERVIEW -->
+
+<div class="page" id="services">
+  <section class="hero">
+    <div class="eyebrow">The Chatify ecosystem</div>
+    <h1>More than<br>messaging.</h1>
+    <p>
+      Explore dedicated services, creative projects,
+      and tools built under the Chatify name.
+    </p>
+  </section>
+  <section class="section soft">
+    <div class="heading">
+      <h2>Explore everything.</h2>
+      <p>Choose a service to see its dedicated page.</p>
+    </div>
+    <div class="grid">
+      <div class="product-card" onclick="go('air')">
+        <h3>Chatify Air</h3>
+        <p>Secondary iMessage client.</p>
+        <span class="link">Explore →</span>
+      </div>
+      <div class="product-card" onclick="go('drop')">
+        <h3>Chatify Drop</h3>
+        <p>Chatify service.</p>
+        <span class="link">Explore →</span>
+      </div>
+      <div class="product-card" onclick="go('ai')">
+        <h3>Chatify AI</h3>
+        <p>AI-focused service.</p>
+        <span class="link">Explore →</span>
+      </div>
+      <div class="product-card" onclick="go('craft')">
+        <h3>Chatify Craft</h3>
+        <p>Game project.</p>
+        <span class="link">Explore →</span>
+      </div>
+      <div class="product-card" onclick="go('html')">
+        <h3>Chatify HTML</h3>
+        <p>Custom HTML runner.</p>
+        <span class="link">Explore →</span>
+      </div>
+    </div>
+  </section>
+</div>
+
+</main>
+
+<footer>
+  <div class="footer-inner">
+    <span>© 2026 Chatify. All rights reserved.</span>
+    <div class="footer-links">
+      <a onclick="go('home')">Home</a>
+      <a onclick="go('services')">Services</a>
+      <a onclick="go('public')">Public</a>
+      <a onclick="go('google')">Google</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+function go(page) {
+  const target = document.getElementById(page);
+
+  if (!target) return;
+
+  document.querySelectorAll('.page').forEach(p => {
+    p.classList.remove('active');
+  });
+
+  target.classList.add('active');
+
+  history.pushState({page:page}, '', '#' + page);
+
+  window.scrollTo({top:0, behavior:'instant'});
+}
+
+function loadPage() {
+  const page = location.hash.replace('#','') || 'home';
+  const target = document.getElementById(page);
+
+  document.querySelectorAll('.page').forEach(p => {
+    p.classList.remove('active');
+  });
+
+  (target || document.getElementById('home')).classList.add('active');
+}
+
+window.addEventListener('popstate', loadPage);
+window.addEventListener('DOMContentLoaded', loadPage);
+
+/* ============================================================
+   INTRO MERGE — plays on every full page reload,
+   never re-triggers from in-app navigation (go(), back/forward).
+   No storage used.
+   ============================================================ */
+document.addEventListener('DOMContentLoaded', async () => {
+  const intro = document.getElementById('mergeIntro');
+  const finalLogo = intro?.querySelector('.merge-final');
+  const showcase = document.querySelector('.logo-showcase');
+
+  if (!intro || !finalLogo || !showcase) return;
+
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    intro.remove();
+    return;
+  }
+
+  const previousOverflow = document.body.style.overflow;
+  document.body.style.overflow = 'hidden';
+
+  let finished = false;
+
+  const cleanup = () => {
+    if (finished) return;
+    finished = true;
+
+    intro.classList.add('done');
+
+       setTimeout(() => {
+      intro.remove();
+      document.body.style.overflow = previousOverflow;
+    }, 700);
+  };
+
+  window.addEventListener('pagehide', () => {
+    finished = true;
+    document.body.style.overflow = previousOverflow;
+  }, { once: true });
+
+  try {
+    // Wait until all five logos have merged into the final logo.
+    await new Promise(resolve => setTimeout(resolve, 4200));
+
+    if (finished) return;
+
+    // Find the exact position and dimensions of the homepage logo.
+    const target = showcase.querySelector('img:first-child');
+
+    if (!target) {
+      cleanup();
+      return;
+    }
+
+    const startRect = finalLogo.getBoundingClientRect();
+    const targetRect = target.getBoundingClientRect();
+
+    // Calculate the precise movement and scaling needed.
+    const moveX =
+      targetRect.left + targetRect.width / 2 -
+      (startRect.left + startRect.width / 2);
+
+    const moveY =
+      targetRect.top + targetRect.height / 2 -
+      (startRect.top + startRect.height / 2);
+
+    const scale = targetRect.width / startRect.width;
+
+     // Smoothly fly the merged logo into the actual homepage position.
+    const animation = finalLogo.animate([
+      {
+        transform: 'translate(0px, 0px) scale(1)'
+      },
+      {
+        transform: `translate(${moveX}px, ${moveY}px) scale(${scale})`
+      }
+    ], {
+      duration: 1300,
+      easing: 'cubic-bezier(0.22, 1, 0.36, 1)',
+      fill: 'forwards'
+    });
+
+    await animation.finished;
+
+    if (finished) return;
+
+    // Fade away the intro while the matching homepage logo is visible.
+    cleanup();
+
+  } catch (error) {
+    cleanup();
+  }
+});
+</script>
+
+</body>
+</html>
