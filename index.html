@@ -131,11 +131,11 @@ button { font:inherit; cursor:pointer; }
 }
 
 .hero h1 {
-  font-size:clamp(72px,11vw,124px);
-  letter-spacing:-8px;
-  line-height:.96;
-  margin-bottom:28px;
-  font-weight:800;
+  font-size:clamp(64px,9.5vw,104px);
+  letter-spacing:-3px;
+  line-height:1.04;
+  margin-bottom:26px;
+  font-weight:600;
   text-align:center;
 }
 
@@ -411,7 +411,7 @@ footer {
 @media(max-width:700px) {
   .nav-links { gap:12px; font-size:11px; }
   .nav-links .optional { display:none; }
-  .hero h1,.product-hero h1 { letter-spacing:-4px; }
+    .hero h1,.product-hero h1 { letter-spacing:-1.5px; }
   .grid { grid-template-columns:1fr; }
   .feature-grid { grid-template-columns:1fr; }
   .section { padding:65px 17px; }
@@ -674,9 +674,9 @@ footer {
       All brought together by Chatify.
     </p>
 
-    <div class="actions">
+        <div class="actions">
       <a href="#products" class="btn primary"
-         onclick="document.getElementById('products').scrollIntoView()">
+         onclick="event.preventDefault(); document.getElementById('products').scrollIntoView({behavior:'smooth'});">
          Explore products
       </a>
       <a href="#services" class="btn secondary"
