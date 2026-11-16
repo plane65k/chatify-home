@@ -612,6 +612,136 @@ footer {
   .merge-logo:nth-child(4) { --sx: 190px; --sy: 150px; }
   .merge-logo:nth-child(5) { --sx:   0px; --sy: 200px; }
 }
+
+/* ============================================================
+   DARK MODE
+   ============================================================ */
+
+[data-theme="dark"] {
+  --green:#66bb6a;
+  --dark-green:#4caf50;
+  --light-green:#1b3a20;
+  --pale:#1a1a1a;
+  --ink:#e8e8e8;
+  --muted:#9aa39a;
+  --public-green:#66bb6a;
+  --public-green-dark:#4caf50;
+  --public-green-deep:#81c784;
+  --public-text:#e8e8e8;
+}
+
+[data-theme="dark"] body {
+  background:#121212;
+  color:#e8e8e8;
+}
+
+[data-theme="dark"] .nav {
+  background:rgba(18,18,18,.9);
+  border-bottom:1px solid #2a2a2a;
+}
+
+[data-theme="dark"] .nav-links { color:#b0b0b0; }
+[data-theme="dark"] .nav-links a:hover { color:var(--green); }
+
+[data-theme="dark"] .hero,
+[data-theme="dark"] .product-hero {
+  background:linear-gradient(135deg,#121212 0%,#1a1a1a 100%);
+}
+
+[data-theme="dark"] .hero p,
+[data-theme="dark"] .heading p,
+[data-theme="dark"] .product-card p,
+[data-theme="dark"] .feature p,
+[data-theme="dark"] .product-content > p,
+[data-theme="dark"] .product-hero p,
+[data-theme="dark"] .product-banner p {
+  color:#9aa39a;
+}
+
+[data-theme="dark"] .btn.secondary {
+  color:#81c784;
+  border-color:#2e5c32;
+  background:rgba(30,30,30,.6);
+}
+
+[data-theme="dark"] .btn.secondary:hover {
+  border-color:var(--green);
+  color:var(--green);
+}
+
+[data-theme="dark"] .soft { background:#1a1a1a; }
+
+[data-theme="dark"] .product-card {
+  background:#1e1e1e;
+  border-color:#2a2a2a;
+}
+
+[data-theme="dark"] .product-card:hover {
+  box-shadow:0 15px 40px rgba(102,187,106,.12);
+  border-color:#2e5c32;
+}
+
+[data-theme="dark"] .product-card .link { color:var(--green); }
+
+[data-theme="dark"] .feature {
+  background:#1e1e1e;
+  border-color:#2a2a2a;
+}
+
+[data-theme="dark"] .product-banner {
+  background:#1b3a20;
+  border-color:#2e5c32;
+}
+
+[data-theme="dark"] footer {
+  background:#1a1a1a;
+  color:#8a8a8a;
+  border-top:1px solid #2a2a2a;
+}
+
+[data-theme="dark"] .back { color:var(--green); }
+
+[data-theme="dark"] .logo-showcase img {
+  filter:drop-shadow(0 14px 28px rgba(102,187,106,.18));
+}
+
+[data-theme="dark"] #mergeIntro {
+  background:linear-gradient(135deg,#121212 0%,#1a1a1a 100%);
+}
+
+/* Inline theme toggle (in the nav, before Get started) */
+.theme-toggle {
+  background:none;
+  border:none;
+  font-size:15px;
+  line-height:1;
+  padding:4px;
+  margin:0 -6px 0 0;
+  cursor:pointer;
+  color:#4a4a4a;
+  transition:transform .2s, color .2s;
+}
+
+.theme-toggle:hover {
+  transform:scale(1.15);
+  color:var(--green);
+}
+
+[data-theme="dark"] .theme-toggle {
+  color:#b0b0b0;
+}
+
+[data-theme="dark"] .theme-toggle:hover {
+  color:var(--green);
+}
+
+@media(max-width:700px) {
+  .theme-toggle { font-size:13px; }
+}
+
+@media(prefers-reduced-motion:reduce) {
+  .theme-toggle { transition:none; }
+}
 </style>
 </head>
 
@@ -637,11 +767,12 @@ footer {
   Chatify
 </a>
 
-    <div class="nav-links">
+        <div class="nav-links">
       <a onclick="go('home')">Home</a>
       <a class="optional" onclick="go('public')">Public</a>
       <a class="optional" onclick="go('google')">Google</a>
       <a onclick="go('services')">Services</a>
+      <button id="themeToggle" class="theme-toggle" aria-label="Toggle dark mode" title="Toggle dark mode">🌙</button>
       <a class="nav-cta" href="https://chatify-public.pages.dev/"
          target="_blank" rel="noopener noreferrer">Get started</a>
     </div>
@@ -1397,10 +1528,47 @@ document.addEventListener('DOMContentLoaded', async () => {
     // Fade away the intro while the matching homepage logo is visible.
     cleanup();
 
-  } catch (error) {
+   } catch (error) {
     cleanup();
   }
 });
+
+/* ============================================================
+   DARK MODE TOGGLE
+   Auto-follows device theme until the user picks a theme.
+   Once the user clicks the toggle, their choice is saved and
+   takes precedence over the device preference.
+   ============================================================ */
+(function () {
+  const btn = document.getElementById('themeToggle');
+  if (!btn) return;
+
+  const media = window.matchMedia('(prefers-color-scheme: dark)');
+  const saved = localStorage.getItem('chatify-theme'); // may be null
+
+  const applyTheme = (theme) => {
+    document.documentElement.setAttribute('data-theme', theme);
+    btn.textContent = theme === 'dark' ? '☀️' : '🌙';
+  };
+
+  // Initial: saved preference wins; otherwise follow device.
+  applyTheme(saved || (media.matches ? 'dark' : 'light'));
+
+  // Live-follow the device until the user makes a manual choice.
+  media.addEventListener('change', (e) => {
+    if (!localStorage.getItem('chatify-theme')) {
+      applyTheme(e.matches ? 'dark' : 'light');
+    }
+  });
+
+  // Manual toggle — this locks in the choice.
+  btn.addEventListener('click', () => {
+    const cur = document.documentElement.getAttribute('data-theme');
+    const next = cur === 'dark' ? 'light' : 'dark';
+    applyTheme(next);
+    localStorage.setItem('chatify-theme', next);
+  });
+})();
 </script>
 
 </body>
